@@ -1,0 +1,30 @@
+#create secret in google cloud
+kubectl create secret generic <secret_name> --from-literal key=value
+
+#INSTALL HELM [version 2]
+
+curl -LO https://git.io/get_helm.sh
+chmod 700 get_helm.sh
+./get_helm.sh
+
+# DO NOT Initialize HEML until after RBAC setup as shown below.
+
+#########################################################################
+#TODO: check how helm version 3 can be used - helm 3 has removed tiller
+#########################################################################
+
+#RBAC setup FOR TILLER
+
+# Create a new service accont called tiller in the kube-system namespace
+kubectl create serviceaccount --namespace kube-system tiller
+
+# Create a new clusterrolebinding with the role 'cluster-admin' and assign in to service accont tiller
+kubectl create clusterrolebinding tiller-cluster-rule --clusterrole=cluster-admin --serviceaccount=kube-system:tiller
+
+# Initialize Helm
+helm init --service-account tiller --upgrade
+
+#####################################################
+# Install nginx-ingress: with RBAC enabled
+#####################################################
+helm install stable/nginx-ingress --name my-nginx --set rbac.create=true
