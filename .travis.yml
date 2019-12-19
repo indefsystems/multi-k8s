@@ -7,7 +7,7 @@ env:
   - CLOUDSDK_CORE_DISABLE_PROMPTS=1
   - secure: uadvKQ6d59UIBOu2bLNV5LmQTt2HGF/glMesxowsLpaS0FQS11ekaQDPqtEENFaiOm26EdjVapqRfeJLdBfjCix33AbcD1wXOunY2elkzJIyxRtwV8D1OUylIobzXOh4R/ayXFrbU0J2tHTSf7p0DIzg07gZANdB1SqoD7Wl9bytxGIoywIG2w3rRYygCMl68T42OdbPAWdDbwPlXlmFRO+iV0yL6lELFKLGckDVom2bic22zvNpx+NM7SQqqaFhHS7QLlaYAM8L/Q0145P9G+C1lcLQJNjDw5AOdmUZDVEBxeBgOiL++/1RK6b0R+2BlGl/w7nrn6WzXa9NfJIBReEWTFmWRi+v/x2jJ5MJ5n5PBq9GS2B0UE3mV/OTYycfnfRqUIgVMWYKnJvJ6iCVqZ6mkAZXFYVUO8wKH186Zm58YXiqANXU0PLKbscaBPQ/43VYZ+qRf4JHyz1BVkZjPOrSYRacmnwoftnWk9RzZ67PagmJhZuJwcDIaaLIkGZbfCZVCJETFwdw+ylpyTysS4QpkryHGdSv4MF7dc7izGNNbAneLTJrc2ZRK7JRR3KI/biUlr7HlfVAbKfPbEXlkVw47kZGPJrRlCMuXbvyn8xGC7Ml0W/RCSpbiaX/QL5XZwdyMCDgwC8AKKLZ1YxE+Y/Fr5PBLDN45hbKL6xhHCM=
 before_install:
-- echo $GC_SA_PWD | gpg --passphrase-fd 0 service-account.json.gpg
+- echo "$GC_SA_PWD" | gpg --passphrase-fd 0 service-account.json.gpg
 - curl https://sdk.cloud.google.com | bash > /dev/null;
 - source $HOME/google-cloud-sdk/path.bash.inc
 - gcloud componenets update kubectl
