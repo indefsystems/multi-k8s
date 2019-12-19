@@ -1,26 +1,27 @@
 sudo: required
 services:
-- docker
+  - docker
 env:
   global:
-  - SHA=$(git rev-parse HEAD)
-  - CLOUDSDK_CORE_DISABLE_PROMPTS=1
-  - secure: uqbsBMYGfvs3vzttKFp0L1Ka6WNVkzcVauOBdKa/pXkNx0oDNhZtwq7mLPS1oKxO3XZr1no1Vz9uBzVLCvFtx5bJ4vL6IZIq915WWkzf288zHRL2q5AyVJ/aLBcPpsgl4jGCBR8WlFdwDB3O3kLlcvKpiVGHPCFq4Ffg1qFhepr5ESTYej0kwxUJavgJbabB+2/OdIhozhzFbVyG9CXEKVHDKodcPCsEDOLHz04a57PGhu3BgHXvMar7HRZ3MaDNP6cbVX0mA29KO+ci84nB/XxHD1cvHNfb187SOHVjlJnEejOymWWRNvpaPkhfvVyoFayWu2sGroFTtdKlaehjLUEfRnzkt9kjnE/SZlJqllxvYAFNgmG1yKjK4jII6dDayuksQxrPa//GEluoa4CvjfaLRGnLeouCmUyZ9dsCRwDjgjk5/3f5Q4ItanlcaxXoYTVn+5eCpVwy8YLhDRpS6RiM8V6v+qCnO28xy6ww/5mOMSrrAC4DxkkNhEuBCJz9qoQqGPX3lnPAOWekKH7RLWD1cLb0DvRo9LtsSLnRPYAxCNRRILk852FB64twhkgyByXXrQfureGqlG2qaqLRnN0rFLIfg0EBNT0r7oSwzmIHfeTuNC+IUYjZTliWTEXedOb48a4GLPkQ9nSxlo/uhJGSgYS5+g381amJ4sWSSqA=
+    - SHA=$(git rev-parse HEAD)
+    - CLOUDSDK_CORE_DISABLE_PROMPTS=1
+    - secure: mPSF9xIEXoMN0ipnoXwcCE0zFb6O+lMQjigut0ZS2L5ya8gSfPxeYNtHvY1C1Q10Oy2IC4sS9yXRgqlHg10OMjSQNyxvmHvJz63rvKC7Ea3/PoeXmWaTybQX6qhlxdu0Dpry+RyHnur2rTZUS2FO2crmkTMX/hW/7wa2MDQDHPcWzeND6LiIrFf3gt7SsGEtuDhGx3rfKyxpyjQmJCyDdC3wAksYNxVJGmO095EYZ7jCu+QnCj32rqydDURxRLrUPhtNBL5aupJTmU46B8vrnX50NO3gzIK3mRJFHBz3WpHW4vIsb6v1r+Ea2d74hpySoXGxlgRbZLlNasZL632IYuy7IbK2i+/RgK5XhzuNh0iUrQ/jox5aqoi1yluKzT87u7UKsSNlN+sltc9Y2KDC2hrq7SuXIsqrcX+q2aiEA7aaxOK23FuaRfYuCwpaAdBjfG4xaUTSZ3I/FzfmiMYjYl8i0CQA2XPFN1Z/mGTH31/NSP5fXbYw0UBIq0w9OCo2SswLHv5yebzQuT0uIfJ3AMpyxWTuJD3nGThJH9GNZlF4om5yfF2ti+eCQdnGl2LYj/XELWjfrwgG7OQ4XthDi6E424sx0fn7+hJdVOAInEkBwHpCqkmgixklS+O9v/GIDl0hPjereBwK+6L+430cwK3YD94RMZCk1qNgGAf2+4k=
 before_install:
-- openssl aes-256-cbc -k "$gc_sa_pwd" -in service-account.json.enc -out service-account.json -d
-- curl https://sdk.cloud.google.com | bash > /dev/null;
-- source $HOME/google-cloud-sdk/path.bash.inc
-- gcloud componenets update kubectl
-- gcloud auth activate-service-account --key-file service-account.json
-- gcloud config set project lively-ace-262416
-- gcloud config set compute/zone asia-south1-a
-- gcloud container clusters get-credentials docker-k8s-complete-guide
-- echo "$DOCKER_PASSWORD" | docker login -u "DOCKER_USERNAME" --password-stdin
-- docker build -t indefsystems/react-test -f ./client/Dockerfile.dev ./client
+  - openssl aes-256-cbc -k "$GC_SA_PWD" -in service-account.json.enc -out service-account.json  -d
+  - curl https://sdk.cloud.google.com | bash > /dev/null;
+  - source $HOME/google-cloud-sdk/path.bash.inc
+  - gcloud componenets update kubectl
+  - gcloud auth activate-service-account --key-file service-account.json
+  - gcloud config set project lively-ace-262416
+  - gcloud config set compute/zone asia-south1-a
+  - gcloud container clusters get-credentials docker-k8s-complete-guide
+  - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
+  - docker build -t indefsystems/react-test -f ./client/Dockerfile.dev ./client
 script:
-- docker run -e CI=true indefsystems/react-test npm test
+  - docker run -e CI=true indefsystems/react-test npm test
 deploy:
   provider: script
   script: bash ./deploy.sh
   on:
     branch: master
+  
