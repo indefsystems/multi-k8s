@@ -7,8 +7,7 @@ env:
   - CLOUDSDK_CORE_DISABLE_PROMPTS=1
   - secure: uqbsBMYGfvs3vzttKFp0L1Ka6WNVkzcVauOBdKa/pXkNx0oDNhZtwq7mLPS1oKxO3XZr1no1Vz9uBzVLCvFtx5bJ4vL6IZIq915WWkzf288zHRL2q5AyVJ/aLBcPpsgl4jGCBR8WlFdwDB3O3kLlcvKpiVGHPCFq4Ffg1qFhepr5ESTYej0kwxUJavgJbabB+2/OdIhozhzFbVyG9CXEKVHDKodcPCsEDOLHz04a57PGhu3BgHXvMar7HRZ3MaDNP6cbVX0mA29KO+ci84nB/XxHD1cvHNfb187SOHVjlJnEejOymWWRNvpaPkhfvVyoFayWu2sGroFTtdKlaehjLUEfRnzkt9kjnE/SZlJqllxvYAFNgmG1yKjK4jII6dDayuksQxrPa//GEluoa4CvjfaLRGnLeouCmUyZ9dsCRwDjgjk5/3f5Q4ItanlcaxXoYTVn+5eCpVwy8YLhDRpS6RiM8V6v+qCnO28xy6ww/5mOMSrrAC4DxkkNhEuBCJz9qoQqGPX3lnPAOWekKH7RLWD1cLb0DvRo9LtsSLnRPYAxCNRRILk852FB64twhkgyByXXrQfureGqlG2qaqLRnN0rFLIfg0EBNT0r7oSwzmIHfeTuNC+IUYjZTliWTEXedOb48a4GLPkQ9nSxlo/uhJGSgYS5+g381amJ4sWSSqA=
 before_install:
-- openssl aes-256-cbc -k "$gc_travis_sa_pwd" -in service-account.json.enc -out service-account.json
-  -d
+- openssl aes-256-cbc -k "$gc_sa_pwd" -in service-account.json.enc -out service-account.json -d
 - curl https://sdk.cloud.google.com | bash > /dev/null;
 - source $HOME/google-cloud-sdk/path.bash.inc
 - gcloud componenets update kubectl
